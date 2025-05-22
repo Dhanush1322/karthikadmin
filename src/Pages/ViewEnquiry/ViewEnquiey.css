@@ -1,0 +1,130 @@
+.ve-table-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ve-table-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.ve-table-scroll {
+  overflow-x: auto;
+}
+
+.ve-equipment-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #333;
+}
+
+.ve-equipment-table thead {
+  background-color: #f3f4f6;
+  text-align: left;
+}
+
+.ve-equipment-table th,
+.ve-equipment-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.ve-equipment-img {
+  width: 60px;
+  height: auto;
+  border-radius: 6px;
+}
+
+.ve-bold {
+  font-weight: 600;
+}
+
+.ve-status-badge {
+  display: inline-block;
+  background-color: #e6ffed;
+  color: #22c55e;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.ve-action-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.ve-confirm-btn,
+.ve-cancel-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* Confirm Button Styling */
+.ve-confirm-btn {
+  background-color: #10b981;
+  color: white;
+}
+
+.ve-confirm-btn:hover {
+  background-color: #059669;
+}
+
+/* Cancel Button Styling */
+.ve-cancel-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.ve-cancel-btn:hover {
+  background-color: #dc2626;
+}
+
+/* Gray-style Cancel (bottom area) */
+.ve-action-buttons .ve-cancel-btn.ve-gray {
+  background-color: #e5e7eb;
+  color: #333;
+}
+
+/* Save Button Styling */
+.ve-save-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #3b82f6;
+  color: white;
+}
+
+.ve-pagination-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.ve-pagination-btn {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.ve-pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ve-action-buttons {
+  display: flex;
+  gap: 10px;
+}

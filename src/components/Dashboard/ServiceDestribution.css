@@ -1,0 +1,16 @@
+.service-distribution {
+  background: white;
+padding: 10px;
+  border-radius: 12px;
+ 
+align-items: center;
+  flex: 1;
+  min-width: 300px;
+height: 450px;
+}
+.service-distribution h2 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #333;
+}

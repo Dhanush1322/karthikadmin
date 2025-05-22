@@ -1,0 +1,38 @@
+.cards-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 220px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.card h4 {
+  font-size: 14px;
+  color: #888;
+}
+
+.card p {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+
+.card small {
+  font-size: 12px;
+}
+
+.positive {
+  color: #4caf50;
+}
+
+.negative {
+  color: #f44336;
+}

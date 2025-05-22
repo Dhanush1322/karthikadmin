@@ -1,0 +1,128 @@
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  font-family: 'Segoe UI', sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  transition: transform 0.3s ease;
+   overflow-y: auto;
+  scrollbar-width: thin;           /* For Firefox */
+  scrollbar-color: #cbd5e0 #f9fafb; /* For Firefox */
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    padding-top: 0px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+ 
+}
+
+.close-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .close-btn {
+    display: block;
+  }
+  .logo-section{
+     margin-top: -25px;
+  }
+  
+}
+
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+ 
+}
+
+.logo {
+  width: 60px;
+}
+
+.tagline {
+  font-size: 11px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.menu-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+  margin: 20px 0 10px 6px;
+  text-transform: uppercase;
+}
+
+/* Shared Styles for All NavLinks */
+.menu-button,
+.service-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.menu-button:hover,
+.service-item:hover {
+  background-color: #e4e8f0;
+  color: #111827;
+}
+
+.menu-button.active,
+.service-item.active {
+  background-color: #4194FF;
+  color: #ffffff;
+}
+
+.menu-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.services-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer {
+  margin-top: auto;
+  font-size: 11px;
+  text-align: center;
+  color: #9ca3af;
+  padding: 20px 0 10px;
+}
