@@ -1,69 +1,71 @@
 import React, { useState } from 'react';
 
-
 function TopSpeedSecurity() {
-  const [formData, setFormData] = useState({
-    name: '',
-    role: '',
-    rating: '',
-    eventsCount: '',
-    description: '',
-    genres: '',
-    imageUrl: '',
-    isBookable: true,
-  });
+  const [image, setImage] = useState(null);
+  const [events, setEvents] = useState('');
+  const [ratings, setRatings] = useState('');
+  const [isBookable, setIsBookable] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submit performer data:', formData);
-    // Send to backend here
+
+    if (!image) {
+      alert('Please upload an image');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem('adminToken');
+      const formData = new FormData();
+      formData.append('file', image);
+      formData.append('number_of_events', events);
+      formData.append('rating', ratings);
+      formData.append('availability_status', isBookable);
+
+      const response = await fetch('http://karthikcreation.ap-1.evennode.com/api/admin/addArtist', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`
+          // Don't add 'Content-Type': it will be set automatically for FormData
+        },
+        body: formData
+      });
+
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Artist added successfully!');
+        // Reset form
+        setImage(null);
+        setEvents('');
+        setRatings('');
+        setIsBookable(false);
+      } else {
+        alert('Failed to add artist: ' + (data.message || 'Unknown error'));
+      }
+    } catch (error) {
+      alert('Error: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="security-service-wrapper">
       <div className="security-service-form">
-        <h2 className="form-title">Add Performer</h2>
+        <h2 className="form-title">Add Performer Details</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Performer Name</label>
+            <label>Upload Image</label>
             <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Performer Name"
+              type="file"
               className="form-control"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Role</label>
-            <input
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              placeholder="Role (e.g., DJ, Band)"
-              className="form-control"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Rating</label>
-            <input
-              name="rating"
-              value={formData.rating}
-              onChange={handleChange}
-              placeholder="Rating (e.g., 4.8)"
-              className="form-control"
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
               required
             />
           </div>
@@ -71,63 +73,49 @@ function TopSpeedSecurity() {
           <div className="form-group">
             <label>Number of Events</label>
             <input
+              type="number"
               name="eventsCount"
-              value={formData.eventsCount}
-              onChange={handleChange}
+              value={events}
+              onChange={(e) => setEvents(e.target.value)}
               placeholder="Number of Events"
               className="form-control"
               required
+              min={0}
             />
           </div>
 
           <div className="form-group">
-            <label>Description</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Description"
-              className="form-control form-textarea"
+            <label>Rating</label>
+            <input
+              type="number"
+              step="0.1"
+              max="5"
+              min="0"
+              name="rating"
+              value={ratings}
+              onChange={(e) => setRatings(e.target.value)}
+              placeholder="Rating (0 to 5)"
+              className="form-control"
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Genres</label>
-            <input
-              name="genres"
-              value={formData.genres}
-              onChange={handleChange}
-              placeholder="Genres (comma-separated)"
-              className="form-control"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Image URL</label>
-            <input
-              name="imageUrl"
-              value={formData.imageUrl}
-              onChange={handleChange}
-              placeholder="Image URL"
-              className="form-control"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="checkbox-label" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <input
                 type="checkbox"
                 name="isBookable"
-                checked={formData.isBookable}
-                onChange={handleChange}
+                checked={isBookable}
+                onChange={(e) => setIsBookable(e.target.checked)}
               />
               Bookable
             </label>
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn save">Save Performer</button>
+            <button type="submit" className="btn save" disabled={loading}>
+              {loading ? 'Submitting...' : 'Submit'}
+            </button>
           </div>
         </form>
       </div>

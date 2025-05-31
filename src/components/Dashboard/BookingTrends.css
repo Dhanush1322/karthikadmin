@@ -1,9 +1,7 @@
 .booking-trends {
   background: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-  
+  padding: 10px 20px;
+  height: 400px;
 }
 
 .booking-trends h2 {
@@ -11,4 +9,27 @@
   font-weight: 500;
   margin-bottom: 20px;
   color: #333;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .booking-trends {
+    padding: 10px 12px;
+    height: auto; /* Allow height to adapt based on content */
+  }
+
+  .booking-trends h2 {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-trends {
+    padding: 8px 10px;
+  }
+
+  .booking-trends h2 {
+    font-size: 15px;
+  }
 }

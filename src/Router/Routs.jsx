@@ -13,24 +13,37 @@ import ViewEnquiey from '../Pages/ViewEnquiry/ViewEnquiey';
 import Contact from '../Pages/ViewContact/ViewContact';
 import ConfirmBooking from '../Pages/ConfirmBooking/ConfirmBooking';
 import CancelBooking from '../Pages/CancelBooking/CancelBooking';
+import Login from '../Login/Login';
+
 const AppRoutes = () => {
   return (
     <Router>
-      <AdminLayout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/SecurityService" element={<SecurityService />} />
-          <Route path="/SecurityServiceTable" element={<SecurityServiceTable />} />
-          <Route path="/artist-coordination" element={<TopSpeedSecurity />} />
-          <Route path="/ArtistsCoordinationTable" element={<ArtistsCoordinationTable />} />
-          <Route path="/SpeedSecurity" element={<SpeedSecurity />} />
-          <Route path="/TopSpeedTable" element={<TopSpeedTable />} />
-          <Route path="/ViewEnquiey" element={<ViewEnquiey />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/ConfirmBooking" element={<ConfirmBooking />} />
-          <Route path="/CancelBooking" element={<CancelBooking />} />
-        </Routes>
-      </AdminLayout>
+      <Routes>
+        {/* Login route OUTSIDE AdminLayout */}
+        <Route path="/" element={<Login />} />
+
+        {/* All other routes INSIDE AdminLayout */}
+        <Route
+          path="*"
+          element={
+            <AdminLayout>
+              <Routes>
+                <Route path="/Dashboard" element={<Dashboard />} />
+                <Route path="/SecurityService" element={<SecurityService />} />
+                <Route path="/SecurityServiceTable" element={<SecurityServiceTable />} />
+                <Route path="/artist-coordination" element={<TopSpeedSecurity />} />
+                <Route path="/ArtistsCoordinationTable" element={<ArtistsCoordinationTable />} />
+                <Route path="/SpeedSecurity" element={<SpeedSecurity />} />
+                <Route path="/TopSpeedTable" element={<TopSpeedTable />} />
+                <Route path="/ViewEnquiey" element={<ViewEnquiey />} />
+                <Route path="/Contact" element={<Contact />} />
+                <Route path="/ConfirmBooking" element={<ConfirmBooking />} />
+                <Route path="/CancelBooking" element={<CancelBooking />} />
+              </Routes>
+            </AdminLayout>
+          }
+        />
+      </Routes>
     </Router>
   );
 };

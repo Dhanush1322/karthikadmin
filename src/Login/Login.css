@@ -1,0 +1,116 @@
+/* Full-screen center */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+}
+.images {
+  display: block;
+  margin: 0 auto 20px auto;
+  width: 100px; /* Adjust size as needed */
+  height: auto;
+}
+
+/* Login box with glowing animated border */
+.login-box {
+  position: relative;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 350px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Animated border effect */
+.login-box::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff0057, #00c6ff, #ffcc00, #00ff99, #ff0057);
+  background-size: 400%;
+  z-index: -1;
+  border-radius: 18px;
+  animation: borderGlow 6s linear infinite;
+}
+
+/* Inner background to hide excess glow */
+.login-box::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  background: white;
+  border-radius: 14px;
+  z-index: -1;
+}
+
+@keyframes borderGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Header */
+.login-box h2 {
+  text-align: center;
+  color: #4f46e5;
+  margin-bottom: 24px;
+}
+
+/* Input group styling */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #4f46e5;
+  outline: none;
+}
+
+/* Submit button */
+.button-login {
+  width: 100%;
+  padding: 12px;
+  background-color: #612e90;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #c82b3e;
+}

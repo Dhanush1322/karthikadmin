@@ -1,38 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
-  AreaChart,
-  Area,
 } from 'recharts';
 import './BookingTrends.css';
-
-const data = [
-  { name: 'Jan', corporate: 100, vip: 50 },
-  { name: 'Feb', corporate: 150, vip: 100 },
-  { name: 'Mar', corporate: 200, vip: 180 },
-  { name: 'Apr', corporate: 300, vip: 230 },
-  { name: 'May', corporate: 400, vip: 280 },
-  { name: 'Jun', corporate: 350, vip: 300 },
-  { name: 'Jul', corporate: 420, vip: 320 },
-  { name: 'Aug', corporate: 500, vip: 360 },
-  { name: 'Sep', corporate: 470, vip: 310 },
-  { name: 'Oct', corporate: 520, vip: 290 },
-  { name: 'Nov', corporate: 430, vip: 250 },
-  { name: 'Dec', corporate: 410, vip: 240 },
-];
+import moment from 'moment';
 
 function BookingTrends() {
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken');
+
+    fetch('http://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.Status && Array.isArray(result.msg)) {
+          const monthlyData = {};
+
+          result.msg.forEach((booking) => {
+            const month = moment(booking.date || booking.createdAt).format('MMM');
+            const type = booking.type || 'corporate'; // Default fallback
+
+            if (!monthlyData[month]) {
+              monthlyData[month] = { name: month, corporate: 0, vip: 0 };
+            }
+
+            if (type.toLowerCase() === 'vip') {
+              monthlyData[month].vip += 1;
+            } else {
+              monthlyData[month].corporate += 1;
+            }
+          });
+
+          // Sort months based on calendar order
+          const orderedMonths = moment.monthsShort();
+          const sortedData = orderedMonths.map((m) => monthlyData[m] || { name: m, corporate: 0, vip: 0 });
+
+          setChartData(sortedData);
+        }
+      })
+      .catch((err) => console.error('Error loading booking trends:', err));
+  }, []);
+
   return (
     <div className="booking-trends">
       <h2>Booking Trends</h2>
       <ResponsiveContainer width="100%" height={300}>
-        <AreaChart data={data}>
+        <AreaChart data={chartData}>
           <defs>
             <linearGradient id="colorCorporate" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />

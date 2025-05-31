@@ -1,50 +1,80 @@
 .recent-booking-section {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 20px;
-  margin: 20px 0;
-  height: 350px;
+  background: white;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .recent-booking-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 15px;
-  color: #1f2937;
+  color: #333;
 }
 
+/* Table styles */
 .recent-booking-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 600px; /* Ensure minimum width for horizontal scroll */
 }
 
 .recent-booking-table th,
 .recent-booking-table td {
-  padding: 12px 15px;
+  padding: 10px;
   text-align: left;
+  border-bottom: 1px solid #ddd;
   font-size: 14px;
-  border-bottom: 1px solid #e5e7eb;
 }
 
+.recent-booking-table th {
+  background-color: #f4f4f4;
+  font-weight: 600;
+  color: #444;
+}
+
+/* Status badges */
 .status-badge {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: white;
+  text-transform: capitalize;
 }
 
 .status-confirmed {
-  background-color: #e6f9f0;
-  color: #0e9f6e;
+  background-color: #16a34a; /* green */
 }
 
 .status-pending {
-  background-color: #fff4e5;
-  color: #e09b28;
+  background-color: #f59e0b; /* amber */
 }
 
-.status-in-progress {
-  background-color: #e9f1ff;
-  color: #3b82f6;
+.status-rejected {
+  background-color: #dc2626; /* red */
+}
+
+/* Scroll wrapper for mobile */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Scrollbar styling (optional) */
+.table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .recent-booking-table {
+    min-width: 600px;
+  }
 }

@@ -1,60 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SecurityServiceTable.css';
 
-const data = [
-  {
-    id: 1,
-    image: 'https://via.placeholder.com/60',
-    name: 'Sofas & Chairs',
-    description: 'Cushion Chairs ( With Cover & Bow )',
-    status: 'Available',
-    date: 'May 15, 2025',
-  },
-  {
-    id: 2,
-    image: 'https://via.placeholder.com/60',
-    name: 'Sound & Lighting',
-    description: 'Podiums',
-    status: 'Available',
-    date: 'May 12, 2025',
-  },
-  {
-    id: 3,
-    image: 'https://via.placeholder.com/60',
-    name: 'Cooling Solutions',
-    description: 'A/C Units',
-    status: 'Available',
-    date: 'May 10, 2025',
-  },
-  {
-    id: 4,
-    image: 'https://via.placeholder.com/60',
-    name: 'Event Support Equipment',
-    description: 'Barricades & Bollards',
-    status: 'Available',
-    date: 'May 8, 2025',
-  },
-  {
-    id: 5,
-    image: 'https://via.placeholder.com/60',
-    name: 'Maxima Stalls',
-    description: 'German Pagoda ( All Size )',
-    status: 'Available',
-    date: 'May 5, 2025',
-  },
-  {
-    id: 6,
-    image: 'https://via.placeholder.com/60',
-    name: 'Event Furniture',
-    description: 'Carpets ( All Colors & Designs )',
-    status: 'Available',
-    date: 'May 3, 2025',
-  }
-];
+const AUTH_TOKEN = localStorage.getItem('adminToken');
 
 function SecurityServiceTable() {
+  const [data, setData] = useState([]);
+  const [images, setImages] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 4;
+
+  useEffect(() => {
+    fetch('http://karthikcreation.ap-1.evennode.com/api/admin/getService', {
+      headers: {
+        'Authorization': `Bearer ${AUTH_TOKEN}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(async result => {
+        if (result.Status && Array.isArray(result.data)) {
+          setData(result.data);
+
+          // Fetch each image securely as blob
+          const newImages = {};
+          for (const item of result.data) {
+            if (item.img) {
+              const response = await fetch(`http://karthikcreation.ap-1.evennode.com/api/admin/viewServiceFile/${item.img}`, {
+                headers: {
+                  Authorization: `Bearer ${AUTH_TOKEN}`,
+                }
+              });
+              const blob = await response.blob();
+              newImages[item._id] = URL.createObjectURL(blob);
+            }
+          }
+          setImages(newImages);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
   const indexOfLast = currentPage * rowsPerPage;
   const indexOfFirst = indexOfLast - rowsPerPage;
@@ -78,24 +64,36 @@ function SecurityServiceTable() {
             <tr>
               <th>S.NO</th>
               <th>Image</th>
-              <th>Equipment Name</th>
-              <th>Description</th>
+              <th>Heading</th>
+              <th>Sub Heading</th>
               <th>Status</th>
-              <th>Last Updated</th>
+              <th>Created At</th>
+              <th>Updated At</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {currentRows.map((item, index) => (
-              <tr key={item.id}>
+              <tr key={item._id}>
                 <td>{indexOfFirst + index + 1}</td>
-                <td><img src={item.image} alt="equipment" className="equipment-img" /></td>
-                <td className="bold">{item.name}</td>
-                <td>{item.description}</td>
                 <td>
-                  <span className="status-badge">{item.status}</span>
+                  {images[item._id] ? (
+                    <img
+                      src={images[item._id]}
+                      alt="equipment"
+                      className="equipment-img"
+                    />
+                  ) : (
+                    <span>Loading...</span>
+                  )}
                 </td>
-                <td>{item.date}</td>
+                <td className="bold">{item.heading}</td>
+                <td>{item.subheading?.join(', ')}</td>
+                <td>
+                  <span className="status-badge">{item.availability_status}</span>
+                </td>
+                <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                <td>{new Date(item.updatedAt).toLocaleDateString()}</td>
                 <td className="action-btns">
                   <button className="edit-btn">✏️</button>
                   <button className="delete-btn">🗑️</button>
@@ -123,10 +121,7 @@ function SecurityServiceTable() {
             Next
           </button>
         </div>
-        <div className="action-buttons">
-          <button className="cancel-btn">Cancel</button>
-          <button className="save-btn">Save Service</button>
-        </div>
+       
       </div>
     </div>
   );

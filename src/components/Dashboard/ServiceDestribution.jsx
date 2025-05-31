@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   PieChart,
   Pie,
@@ -9,24 +9,50 @@ import {
 } from 'recharts';
 import './ServiceDestribution.css';
 
-const data = [
-  { name: 'Corporate', value: 400 },
-  { name: 'Event Security', value: 300 },
-  { name: 'VIP Operations', value: 300 },
-  { name: 'Wedding Security', value: 200 },
-  { name: 'Other service', value: 100 },
-];
-
 const COLORS = ['#00C49F', '#FF8042', '#0088FE', '#FFBB28', '#8884d8'];
 
 function ServiceDestribution() {
+  const [serviceData, setServiceData] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken');
+
+    fetch('http://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.Status && Array.isArray(result.msg)) {
+          const services = result.msg;
+
+          // Count the services
+          const counts = {};
+          services.forEach(item => {
+            const type = item.serviceType || 'Other'; // Replace `serviceType` with actual field name
+            counts[type] = (counts[type] || 0) + 1;
+          });
+
+          const chartData = Object.entries(counts).map(([name, value]) => ({
+            name,
+            value,
+          }));
+
+          setServiceData(chartData);
+        }
+      })
+      .catch(err => console.error('Error fetching service data:', err));
+  }, []);
+
   return (
     <div className="service-distribution">
       <h2>Service Distribution</h2>
       <ResponsiveContainer width="100%" height={280}>
         <PieChart>
           <Pie
-            data={data}
+            data={serviceData}
             cx="50%"
             cy="50%"
             innerRadius={60}
@@ -35,7 +61,7 @@ function ServiceDestribution() {
             dataKey="value"
             label
           >
-            {data.map((entry, index) => (
+            {serviceData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>

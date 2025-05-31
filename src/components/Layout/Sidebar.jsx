@@ -21,7 +21,7 @@ function Sidebar({ isOpen, onClose }) {
         <div>
           <p className="menu-title">MAIN MENU</p>
           <NavLink
-            to="/"
+            to="/Dashboard"
             className={({ isActive }) =>
               `menu-button ${isActive ? 'active' : ''}`
             }

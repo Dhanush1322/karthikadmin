@@ -1,72 +1,55 @@
-import React, { useState } from 'react';
-import './ArtistsCoordinationTable.css'; // Reuse same style
-
-const artistData = [
-  {
-    id: 1,
-    name: 'John Doe',
-    role: 'Singer',
-    ratings: 4.5,
-    events: 12,
-    description: 'Energetic performer with a soulful voice.',
-    genres: 'Pop, Jazz',
-    image: 'https://via.placeholder.com/60',
-  },
-  {
-    id: 2,
-    name: 'Emma Watson',
-    role: 'Violinist',
-    ratings: 4.8,
-    events: 20,
-    description: 'Graceful violinist with 10+ years experience.',
-    genres: 'Classical, Instrumental',
-    image: 'https://via.placeholder.com/60',
-  },
-  {
-    id: 3,
-    name: 'David Lee',
-    role: 'DJ',
-    ratings: 4.2,
-    events: 30,
-    description: 'Popular EDM DJ with amazing energy.',
-    genres: 'EDM, House',
-    image: 'https://via.placeholder.com/60',
-  },
-  {
-    id: 4,
-    name: 'Maya Rao',
-    role: 'Dancer',
-    ratings: 4.6,
-    events: 18,
-    description: 'Classical Bharatanatyam performer.',
-    genres: 'Indian Classical',
-    image: 'https://via.placeholder.com/60',
-  },
-  {
-    id: 5,
-    name: 'Zayn Malik',
-    role: 'Guitarist',
-    ratings: 4.3,
-    events: 22,
-    description: 'Expert guitarist for rock and blues.',
-    genres: 'Rock, Blues',
-    image: 'https://via.placeholder.com/60',
-  },
-  {
-    id: 6,
-    name: 'Anna Bell',
-    role: 'Magician',
-    ratings: 4.9,
-    events: 25,
-    description: 'Captivating stage magician for all ages.',
-    genres: 'Magic Show',
-    image: 'https://via.placeholder.com/60',
-  }
-];
+import React, { useEffect, useState } from 'react';
+import './ArtistsCoordinationTable.css';
 
 function ArtistsCoordinationTable() {
+  const [artistData, setArtistData] = useState([]);
+  const [imageUrls, setImageUrls] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 3;
+
+     const token = localStorage.getItem('adminToken');
+
+  useEffect(() => {
+    const fetchArtistData = async () => {
+      try {
+        const response = await fetch('http://karthikcreation.ap-1.evennode.com/api/admin/getAllArtist', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const result = await response.json();
+        if (result.Status) {
+          setArtistData(result.data);
+          fetchImages(result.data); // Fetch images after artist data
+        } else {
+          console.error('Failed to fetch artist data');
+        }
+      } catch (error) {
+        console.error('Error fetching artist data:', error);
+      }
+    };
+
+    const fetchImages = async (artists) => {
+      const newImageUrls = {};
+      for (const artist of artists) {
+        try {
+          const response = await fetch(`http://karthikcreation.ap-1.evennode.com/api/admin/viewArtistFile/${artist.img}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const blob = await response.blob();
+          const imageUrl = URL.createObjectURL(blob);
+          newImageUrls[artist._id] = imageUrl;
+        } catch (err) {
+          console.error('Image fetch failed:', err);
+        }
+      }
+      setImageUrls(newImageUrls);
+    };
+
+    fetchArtistData();
+  }, []);
 
   const totalPages = Math.ceil(artistData.length / rowsPerPage);
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -85,30 +68,44 @@ function ArtistsCoordinationTable() {
           <thead>
             <tr>
               <th>S.NO</th>
-              <th>Performer Name</th>
-              <th>Role</th>
-              <th>Ratings</th>
-              <th>No of Events</th>
-              <th>Description</th>
-              <th>Genres</th>
               <th>Image</th>
+              <th>Number Of Events</th>
+              <th>Ratings</th>
+              <th>Status</th>
+              <th>Created Date</th>
+              <th>Updated Date</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {currentRows.map((artist, index) => (
-              <tr key={artist.id}>
+              <tr key={artist._id}>
                 <td>{indexOfFirstRow + index + 1}</td>
-                <td className="bold">{artist.name}</td>
-                <td>{artist.role}</td>
-                <td>{artist.ratings}</td>
-                <td>{artist.events}</td>
-                <td>{artist.description}</td>
-                <td>{artist.genres}</td>
-                <td><img src={artist.image} alt="artist" className="equipment-img" /></td>
-                <td className="action-btns">
+                <td>
+                  {imageUrls[artist._id] ? (
+                    <img
+                      src={imageUrls[artist._id]}
+                      alt="Artist"
+                      width="50"
+                      height="50"
+                      style={{ borderRadius: '8px', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    'Loading...'
+                  )}
+                </td>
+                <td>{artist.number_of_events}</td>
+                <td>{artist.rating}</td>
+                <td style={{ color: artist.availability_status === 1 ? 'green' : 'red' }}>
+                  {artist.availability_status === 1 ? 'Available' : 'Not Available'}
+                </td>
+                <td>{new Date(artist.createdAt).toLocaleDateString()}</td>
+                <td>{new Date(artist.updatedAt).toLocaleDateString()}</td>
+            
+                  <td className="action-btns">
                   <button className="edit-btn">✏️</button>
                   <button className="delete-btn">🗑️</button>
+             
                 </td>
               </tr>
             ))}

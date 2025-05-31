@@ -1,69 +1,70 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TopSpeedTable.css';
 
-const data = [
-  {
-    id: 1,
-    image: 'https://via.placeholder.com/60',
-    name: 'Sofas & Chairs',
-    description: 'Cushion Chairs ( With Cover & Bow )',
-    status: 'Available',
-    date: 'May 15, 2025',
-  },
-  {
-    id: 2,
-    image: 'https://via.placeholder.com/60',
-    name: 'Sound & Lighting',
-    description: 'Podiums',
-    status: 'Available',
-    date: 'May 12, 2025',
-  },
-  {
-    id: 3,
-    image: 'https://via.placeholder.com/60',
-    name: 'Cooling Solutions',
-    description: 'A/C Units',
-    status: 'Available',
-    date: 'May 10, 2025',
-  },
-  {
-    id: 4,
-    image: 'https://via.placeholder.com/60',
-    name: 'Event Support Equipment',
-    description: 'Barricades & Bollards',
-    status: 'Available',
-    date: 'May 8, 2025',
-  },
-  {
-    id: 5,
-    image: 'https://via.placeholder.com/60',
-    name: 'Maxima Stalls',
-    description: 'German Pagoda ( All Size )',
-    status: 'Available',
-    date: 'May 5, 2025',
-  },
-  {
-    id: 6,
-    image: 'https://via.placeholder.com/60',
-    name: 'Event Furniture',
-    description: 'Carpets ( All Colors & Designs )',
-    status: 'Available',
-    date: 'May 3, 2025',
-  }
-];
+const API_URL = 'http://karthikcreation.ap-1.evennode.com/api/admin/getAllTopSpeedSecurityService';
+const IMAGE_API_BASE_URL = 'http://karthikcreation.ap-1.evennode.com/api/admin/viewTopSpeedSecurityServiceFile/';
+const AUTH_TOKEN = localStorage.getItem('adminToken');
 
 function TopSpeedTable() {
+  const [data, setData] = useState([]);
+  const [imageUrls, setImageUrls] = useState({}); // id => objectURL
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 4;
 
-  const indexOfLast = currentPage * rowsPerPage;
-  const indexOfFirst = indexOfLast - rowsPerPage;
-  const currentRows = data.slice(indexOfFirst, indexOfLast);
+  // Fetch data on mount
+  useEffect(() => {
+    fetch(API_URL, {
+      headers: {
+        'Authorization': `Bearer ${AUTH_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.Status && Array.isArray(result.data)) {
+          setData(result.data);
+        }
+      })
+      .catch(err => console.error('Error fetching data:', err));
+  }, []);
+
+  // Fetch images with auth headers as blobs
+  useEffect(() => {
+    // For current page data only, to optimize
+    const currentData = data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+
+    currentData.forEach(item => {
+      if (!item.img || imageUrls[item._id]) return; // skip if no image or already fetched
+
+      fetch(`${IMAGE_API_BASE_URL}${item.img}`, {
+        headers: {
+          Authorization: `Bearer ${AUTH_TOKEN}`,
+        },
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('Image fetch failed');
+          return res.blob();
+        })
+        .then(blob => {
+          const objectUrl = URL.createObjectURL(blob);
+          setImageUrls(prev => ({ ...prev, [item._id]: objectUrl }));
+        })
+        .catch(err => {
+          console.error('Error fetching image:', err);
+          // fallback or do nothing
+        });
+    });
+
+    // Cleanup object URLs when component unmounts or data changes
+    return () => {
+      Object.values(imageUrls).forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [data, currentPage]);
+
   const totalPages = Math.ceil(data.length / rowsPerPage);
 
   const changePage = (direction) => {
-    setCurrentPage((prev) => {
+    setCurrentPage(prev => {
       if (direction === 'prev') return Math.max(prev - 1, 1);
       if (direction === 'next') return Math.min(prev + 1, totalPages);
       return prev;
@@ -79,24 +80,42 @@ function TopSpeedTable() {
             <tr>
               <th>S.NO</th>
               <th>Image</th>
-              <th>Equipment Name</th>
-              <th>Description</th>
+              <th>Heading</th>
+              <th>Sub Heading</th>
               <th>Status</th>
-              <th>Last Updated</th>
+              <th>Created At</th>
+              <th>Updated At</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {currentRows.map((item, index) => (
-              <tr key={item.id}>
-                <td>{indexOfFirst + index + 1}</td>
-                <td><img src={item.image} alt="equipment" className="equipment-img" /></td>
-                <td className="bold">{item.name}</td>
-                <td>{item.description}</td>
+            {data.length === 0 && (
+              <tr>
+                <td colSpan="8" style={{ textAlign: 'center' }}>Loading...</td>
+              </tr>
+            )}
+            {data.length > 0 && data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage).map((item, index) => (
+              <tr key={item._id || item.id}>
+                <td>{(currentPage - 1) * rowsPerPage + index + 1}</td>
                 <td>
-                  <span className="status-badge">{item.status}</span>
+                  {imageUrls[item._id] ? (
+                    <img
+                      src={imageUrls[item._id]}
+                      alt="equipment"
+                      className="equipment-img"
+                    />
+                  ) : (
+                    <span>Loading Image...</span>
+                  )}
+
                 </td>
-                <td>{item.date}</td>
+                <td className="bold">{item.heading || item.name}</td>
+                <td>{item.subheading || item.description}</td>
+                <td>
+                  <span className="status-badge">{item.availability_status || item.status}</span>
+                </td>
+                <td>{item.createdAt ? new Date(item.createdAt).toLocaleDateString() : ''}</td>
+                <td>{item.updatedAt ? new Date(item.updatedAt).toLocaleDateString() : ''}</td>
                 <td className="action-btns">
                   <button className="edit-btn">✏️</button>
                   <button className="delete-btn">🗑️</button>
@@ -124,10 +143,7 @@ function TopSpeedTable() {
             Next
           </button>
         </div>
-        <div className="action-buttons">
-          <button className="cancel-btn">Cancel</button>
-          <button className="save-btn">Save Service</button>
-        </div>
+       
       </div>
     </div>
   );
