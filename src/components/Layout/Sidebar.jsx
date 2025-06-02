@@ -2,8 +2,14 @@ import React from 'react';
 import { Home, Shield, Zap, Users, X, BookOpen, Phone, LogOut } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
-
+import { useNavigate } from 'react-router-dom';
 function Sidebar({ isOpen, onClose }) {
+  const navigate = useNavigate();
+
+const handleLogout = () => {
+  localStorage.removeItem('adminToken'); // Remove token
+  navigate('/'); // Redirect to login page
+};
   return (
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
       {/* Mobile Close Button */}
@@ -106,12 +112,11 @@ function Sidebar({ isOpen, onClose }) {
         <div className="services-section">
           <p className="menu-title">Logout</p>
           <ul className="services-list">
-            <li>
-              <NavLink to="/logout" className={({ isActive }) => `service-item ${isActive ? 'active' : ''}`}>
-                <LogOut className="menu-icon" />
-                Logout Now?
-              </NavLink>
-            </li>
+           <li onClick={handleLogout} className="service-item logout-btn">
+  <LogOut className="menu-icon" />
+  Logout Now?
+</li>
+
           </ul>
         </div>
 

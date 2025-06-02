@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './SecurityServiceTable.css';
+import { useNavigate } from 'react-router-dom';
 
 const AUTH_TOKEN = localStorage.getItem('adminToken');
 
@@ -9,27 +10,31 @@ function SecurityServiceTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 4;
 
+  const navigate = useNavigate(); // ✅ FIX: Declare navigate here
+
   useEffect(() => {
     fetch('http://karthikcreation.ap-1.evennode.com/api/admin/getService', {
       headers: {
         'Authorization': `Bearer ${AUTH_TOKEN}`,
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
-      .then(response => response.json())
-      .then(async result => {
+      .then((response) => response.json())
+      .then(async (result) => {
         if (result.Status && Array.isArray(result.data)) {
           setData(result.data);
 
-          // Fetch each image securely as blob
           const newImages = {};
           for (const item of result.data) {
             if (item.img) {
-              const response = await fetch(`http://karthikcreation.ap-1.evennode.com/api/admin/viewServiceFile/${item.img}`, {
-                headers: {
-                  Authorization: `Bearer ${AUTH_TOKEN}`,
+              const response = await fetch(
+                `http://karthikcreation.ap-1.evennode.com/api/admin/viewServiceFile/${item.img}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${AUTH_TOKEN}`,
+                  },
                 }
-              });
+              );
               const blob = await response.blob();
               newImages[item._id] = URL.createObjectURL(blob);
             }
@@ -37,7 +42,7 @@ function SecurityServiceTable() {
           setImages(newImages);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching data:', error);
       });
   }, []);
@@ -94,9 +99,14 @@ function SecurityServiceTable() {
                 </td>
                 <td>{new Date(item.createdAt).toLocaleDateString()}</td>
                 <td>{new Date(item.updatedAt).toLocaleDateString()}</td>
-                <td className="action-btns">
-                  <button className="edit-btn">✏️</button>
-                  <button className="delete-btn">🗑️</button>
+                <td>
+                  <button
+                    className="edit-btn"
+                    onClick={() => navigate(`/EditSecurityService/${item._id}`)}
+                  >
+                    ✏️
+                  </button>
+                 
                 </td>
               </tr>
             ))}
@@ -105,23 +115,20 @@ function SecurityServiceTable() {
       </div>
 
       <div className="pagination-section">
-        <div>
-          <button
-            onClick={() => changePage('prev')}
-            disabled={currentPage === 1}
-            className="pagination-btn"
-          >
-            Previous
-          </button>
-          <button
-            onClick={() => changePage('next')}
-            disabled={currentPage === totalPages}
-            className="pagination-btn"
-          >
-            Next
-          </button>
-        </div>
-       
+        <button
+          onClick={() => changePage('prev')}
+          disabled={currentPage === 1}
+          className="pagination-btn"
+        >
+          Previous
+        </button>
+        <button
+          onClick={() => changePage('next')}
+          disabled={currentPage === totalPages}
+          className="pagination-btn"
+        >
+          Next
+        </button>
       </div>
     </div>
   );

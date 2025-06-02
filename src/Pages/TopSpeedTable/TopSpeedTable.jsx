@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './TopSpeedTable.css';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'http://karthikcreation.ap-1.evennode.com/api/admin/getAllTopSpeedSecurityService';
 const IMAGE_API_BASE_URL = 'http://karthikcreation.ap-1.evennode.com/api/admin/viewTopSpeedSecurityServiceFile/';
@@ -10,7 +11,7 @@ function TopSpeedTable() {
   const [imageUrls, setImageUrls] = useState({}); // id => objectURL
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 4;
-
+const navigate = useNavigate();
   // Fetch data on mount
   useEffect(() => {
     fetch(API_URL, {
@@ -116,9 +117,14 @@ function TopSpeedTable() {
                 </td>
                 <td>{item.createdAt ? new Date(item.createdAt).toLocaleDateString() : ''}</td>
                 <td>{item.updatedAt ? new Date(item.updatedAt).toLocaleDateString() : ''}</td>
-                <td className="action-btns">
-                  <button className="edit-btn">✏️</button>
-                  <button className="delete-btn">🗑️</button>
+                <td>
+                  <button
+                    className="edit-btn"
+                    onClick={() => navigate(`/EditTopSpeedSecurity/${item._id}`)}
+                  >
+                    ✏️
+                  </button>
+                
                 </td>
               </tr>
             ))}

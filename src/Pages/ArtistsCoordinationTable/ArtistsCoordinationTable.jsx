@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './ArtistsCoordinationTable.css';
-
+import { useNavigate } from 'react-router-dom';
 function ArtistsCoordinationTable() {
   const [artistData, setArtistData] = useState([]);
   const [imageUrls, setImageUrls] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 3;
 
-     const token = localStorage.getItem('adminToken');
-
+  const token = localStorage.getItem('adminToken');
+  const navigate = useNavigate(); // ✅ FIX: Declare navigate here
   useEffect(() => {
     const fetchArtistData = async () => {
       try {
@@ -101,11 +101,15 @@ function ArtistsCoordinationTable() {
                 </td>
                 <td>{new Date(artist.createdAt).toLocaleDateString()}</td>
                 <td>{new Date(artist.updatedAt).toLocaleDateString()}</td>
-            
-                  <td className="action-btns">
-                  <button className="edit-btn">✏️</button>
-                  <button className="delete-btn">🗑️</button>
-             
+
+                <td >
+                  <button
+                    className="edit-btn"
+                    onClick={() => navigate(`/EditArtistCoordination/${artist._id}`)}
+                  >
+                    ✏️
+                  </button>
+
                 </td>
               </tr>
             ))}
