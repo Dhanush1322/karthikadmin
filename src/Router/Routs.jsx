@@ -18,6 +18,7 @@ import Contact from '../Pages/ViewContact/ViewContact';
 import ConfirmBooking from '../Pages/ConfirmBooking/ConfirmBooking';
 import CancelBooking from '../Pages/CancelBooking/CancelBooking';
 import Login from '../Login/Login';
+import AddEventGAllery from '../Pages/AddEventGallery/AddEventGAllery';
 
 const AppRoutes = () => {
   return (
@@ -46,6 +47,7 @@ const AppRoutes = () => {
                 <Route path="/Contact" element={<Contact />} />
                 <Route path="/ConfirmBooking" element={<ConfirmBooking />} />
                 <Route path="/CancelBooking" element={<CancelBooking />} />
+                  <Route path="/AddEventGAllery" element={<AddEventGAllery />} />
               </Routes>
             </AdminLayout>
           }
