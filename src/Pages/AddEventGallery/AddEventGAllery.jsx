@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './AddEventGallery.css';
+import './AddEventGAllery.css';
 
 const categories = [
   'all',
