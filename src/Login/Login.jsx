@@ -11,7 +11,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://karthikcreation.ap-1.evennode.com/api/admin/loginAdmin', {
+      const response = await fetch('https://karthikcreation.ap-1.evennode.com/api/admin/loginAdmin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
