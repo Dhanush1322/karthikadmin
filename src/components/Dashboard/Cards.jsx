@@ -14,7 +14,7 @@ function Cards() {
     const token = localStorage.getItem('adminToken');
 
     // Fetch booking data
-    fetch('http://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry', {
+    fetch('https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ function Cards() {
       .catch(err => console.error('Error fetching bookings:', err));
 
     // Fetch total enquiry messages
-    fetch('http://karthikcreation.ap-1.evennode.com/api/user/getAllMessage', {
+    fetch('https://karthikcreation.ap-1.evennode.com/api/user/getAllMessage', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',

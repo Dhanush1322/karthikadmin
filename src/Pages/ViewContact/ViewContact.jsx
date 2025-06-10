@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';  // Import XLSX here
 import './ViewContact.css';
 
-const API_URL = 'http://karthikcreation.ap-1.evennode.com/api/user/getAllMessage';
+const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllMessage';
 
 function ViewContact() {
   const [data, setData] = useState([]);

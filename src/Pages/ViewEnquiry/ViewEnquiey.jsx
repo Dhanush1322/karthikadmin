@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './ViewEnquiey.css';
 import Swal from 'sweetalert2';
-const API_URL = 'http://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
-const UPDATE_STATUS_URL = 'http://karthikcreation.ap-1.evennode.com/api/user/approveRejectEnquiry';
+const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
+const UPDATE_STATUS_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/approveRejectEnquiry';
 
 function ViewEnquiey() {
   const [data, setData] = useState([]);

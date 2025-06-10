@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import './CancelBooking.css';
 
-const API_URL = 'http://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
+const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
 
 function CancelBooking() {
   const [data, setData] = useState([]);

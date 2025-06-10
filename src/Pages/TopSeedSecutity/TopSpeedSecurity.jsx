@@ -25,7 +25,7 @@ function TopSpeedSecurity() {
       formData.append('rating', ratings);
       formData.append('availability_status', isBookable);
 
-      const response = await fetch('http://karthikcreation.ap-1.evennode.com/api/admin/addArtist', {
+      const response = await fetch('https://karthikcreation.ap-1.evennode.com/api/admin/addArtist', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`

@@ -4,7 +4,7 @@ import './ConfirmBooking.css';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-const API_URL = 'http://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
+const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
 
 function ConfirmBooking() {
   const [data, setData] = useState([]);

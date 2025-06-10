@@ -43,7 +43,7 @@ function SpeedSecurity() {
 
     try {
       const response = await axios.post(
-        'http://karthikcreation.ap-1.evennode.com/api/admin/addTopSpeedSecurityService',
+        'https://karthikcreation.ap-1.evennode.com/api/admin/addTopSpeedSecurityService',
         formData,
         {
           headers: {

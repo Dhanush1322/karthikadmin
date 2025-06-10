@@ -20,7 +20,7 @@ function EditTopSpeedSecurity() {
 
       try {
         const response = await axios.get(
-          'http://karthikcreation.ap-1.evennode.com/api/admin/getAllTopSpeedSecurityService',
+          'https://karthikcreation.ap-1.evennode.com/api/admin/getAllTopSpeedSecurityService',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -88,7 +88,7 @@ function EditTopSpeedSecurity() {
 
     try {
       const response = await axios.put(
-        `http://karthikcreation.ap-1.evennode.com/api/admin/updateTopSpeedSecurityServiceData/${id}`,
+        `https://karthikcreation.ap-1.evennode.com/api/admin/updateTopSpeedSecurityServiceData/${id}`,
         formData,
         {
           headers: {

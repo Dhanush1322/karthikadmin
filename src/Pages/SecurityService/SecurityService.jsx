@@ -42,7 +42,7 @@ function SecurityService() {
 
     try {
       const response = await axios.post(
-        'http://karthikcreation.ap-1.evennode.com/api/admin/addServiceInfo',
+        'https://karthikcreation.ap-1.evennode.com/api/admin/addServiceInfo',
         formData,
         {
           headers: {

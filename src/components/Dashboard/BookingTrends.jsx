@@ -17,7 +17,7 @@ function BookingTrends() {
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
 
-    fetch('http://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry', {
+    fetch('https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry', {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',

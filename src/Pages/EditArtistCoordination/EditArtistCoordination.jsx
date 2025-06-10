@@ -19,7 +19,7 @@ const navigate = useNavigate();
 
         // Fetch all artists
         const response = await axios.get(
-          'http://karthikcreation.ap-1.evennode.com/api/admin/getAllArtist',
+          'https://karthikcreation.ap-1.evennode.com/api/admin/getAllArtist',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -83,7 +83,7 @@ const navigate = useNavigate();
       formData.append('availability_status', isBookable ? 1 : 0);
 
       const response = await fetch(
-        `http://karthikcreation.ap-1.evennode.com/api/admin/updateArtistCoordinationData/${id}`,
+        `https://karthikcreation.ap-1.evennode.com/api/admin/updateArtistCoordinationData/${id}`,
         {
           method: 'PUT',
           headers: {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './RecentBooking.css';
 
-const API_URL = 'http://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
+const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
 
 function RecentBooking() {
   const [bookings, setBookings] = useState([]);

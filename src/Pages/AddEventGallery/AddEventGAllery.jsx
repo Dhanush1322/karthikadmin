@@ -45,7 +45,7 @@ function AddEventGallery() {
       formData.append('file', file);
 
       const response = await axios.post(
-        'http://karthikcreation.ap-1.evennode.com/api/admin/createEventGallery',
+        'https://karthikcreation.ap-1.evennode.com/api/admin/createEventGallery',
         formData,
         {
           headers: {

@@ -12,7 +12,7 @@ function ArtistsCoordinationTable() {
   useEffect(() => {
     const fetchArtistData = async () => {
       try {
-        const response = await fetch('http://karthikcreation.ap-1.evennode.com/api/admin/getAllArtist', {
+        const response = await fetch('https://karthikcreation.ap-1.evennode.com/api/admin/getAllArtist', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -33,7 +33,7 @@ function ArtistsCoordinationTable() {
       const newImageUrls = {};
       for (const artist of artists) {
         try {
-          const response = await fetch(`http://karthikcreation.ap-1.evennode.com/api/admin/viewArtistFile/${artist.img}`, {
+          const response = await fetch(`https://karthikcreation.ap-1.evennode.com/api/admin/viewArtistFile/${artist.img}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

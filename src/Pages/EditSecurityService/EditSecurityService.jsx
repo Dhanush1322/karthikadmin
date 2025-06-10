@@ -17,7 +17,7 @@ function EditSecurityService() {
     try {
       const token = localStorage.getItem('adminToken');
       const response = await axios.get(
-        'http://karthikcreation.ap-1.evennode.com/api/admin/getService',
+        'https://karthikcreation.ap-1.evennode.com/api/admin/getService',
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -89,7 +89,7 @@ function EditSecurityService() {
 
     try {
       const response = await axios.put(
-        `http://karthikcreation.ap-1.evennode.com/api/admin/updateServiceData/${id}`,
+        `https://karthikcreation.ap-1.evennode.com/api/admin/updateServiceData/${id}`,
         formData,
         {
           headers: {

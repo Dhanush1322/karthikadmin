@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './TopSpeedTable.css';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://karthikcreation.ap-1.evennode.com/api/admin/getAllTopSpeedSecurityService';
-const IMAGE_API_BASE_URL = 'http://karthikcreation.ap-1.evennode.com/api/admin/viewTopSpeedSecurityServiceFile/';
+const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/admin/getAllTopSpeedSecurityService';
+const IMAGE_API_BASE_URL = 'https://karthikcreation.ap-1.evennode.com/api/admin/viewTopSpeedSecurityServiceFile/';
 const AUTH_TOKEN = localStorage.getItem('adminToken');
 
 function TopSpeedTable() {
