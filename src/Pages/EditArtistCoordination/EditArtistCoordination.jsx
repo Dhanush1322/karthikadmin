@@ -8,6 +8,7 @@ function EditArtistCoordination() {
 
   const [image, setImage] = useState(null);
   const [events, setEvents] = useState('');
+  const [name, setName] = useState('');
   const [ratings, setRatings] = useState('');
   const [isBookable, setIsBookable] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,6 +34,7 @@ const navigate = useNavigate();
 
           if (artist) {
             setEvents(artist.number_of_events || '');
+setName(artist.heading || '');
             setRatings(artist.rating || '');
             setIsBookable(artist.availability_status === 1);
           } else {
@@ -79,6 +81,7 @@ const navigate = useNavigate();
       }
 
       formData.append('number_of_events', events);
+        formData.append('heading', heading);
       formData.append('rating', ratings);
       formData.append('availability_status', isBookable ? 1 : 0);
 
@@ -151,6 +154,19 @@ const navigate = useNavigate();
               required
               min={0}
             />
+          </div>
+           <div className="form-group">
+            <label>Events name</label>
+           <input
+  type="text"
+  name="name"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+  placeholder="Events Name"
+  className="form-control"
+  required
+/>
+
           </div>
 
           <div className="form-group">

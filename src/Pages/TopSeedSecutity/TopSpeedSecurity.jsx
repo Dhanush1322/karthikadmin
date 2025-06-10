@@ -3,6 +3,7 @@ import './TopSpeedSecurity.css';
 function TopSpeedSecurity() {
   const [image, setImage] = useState(null);
   const [events, setEvents] = useState('');
+   const [name, setName] = useState('');
   const [ratings, setRatings] = useState('');
   const [isBookable, setIsBookable] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,7 @@ function TopSpeedSecurity() {
       const formData = new FormData();
       formData.append('file', image);
       formData.append('number_of_events', events);
+      formData.append('heading', name);
       formData.append('rating', ratings);
       formData.append('availability_status', isBookable);
 
@@ -78,6 +80,19 @@ function TopSpeedSecurity() {
               value={events}
               onChange={(e) => setEvents(e.target.value)}
               placeholder="Number of Events"
+              className="form-control"
+              required
+              min={0}
+            />
+          </div>
+          <div className="form-group">
+            <label>Events Name</label>
+            <input
+              type="name"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Events Name"
               className="form-control"
               required
               min={0}

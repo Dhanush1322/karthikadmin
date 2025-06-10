@@ -70,6 +70,7 @@ function ArtistsCoordinationTable() {
               <th>S.NO</th>
               <th>Image</th>
               <th>Number Of Events</th>
+              <th>Events Name</th>
               <th>Ratings</th>
               <th>Status</th>
               <th>Created Date</th>
@@ -95,6 +96,7 @@ function ArtistsCoordinationTable() {
                   )}
                 </td>
                 <td>{artist.number_of_events}</td>
+                 <td>{artist.heading}</td>
                 <td>{artist.rating}</td>
                 <td style={{ color: artist.availability_status === 1 ? 'green' : 'red' }}>
                   {artist.availability_status === 1 ? 'Available' : 'Not Available'}

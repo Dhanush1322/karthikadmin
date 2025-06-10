@@ -19,7 +19,10 @@ import ConfirmBooking from '../Pages/ConfirmBooking/ConfirmBooking';
 import CancelBooking from '../Pages/CancelBooking/CancelBooking';
 import Login from '../Login/Login';
 import AddEventGAllery from '../Pages/AddEventGallery/AddEventGAllery';
-
+import ViewEventGallery from '../Pages/ViewEventGAllery/ViewEventGallery';
+import EditEventGallery from '../Pages/EditEventGallery/EditEventGallery';
+import AddBanner from '../Pages/AddBanner/AddBanner';
+import ViewBanner from '../Pages/ViewBanner/ViewBanner';
 const AppRoutes = () => {
   return (
     <Router>
@@ -48,6 +51,10 @@ const AppRoutes = () => {
                 <Route path="/ConfirmBooking" element={<ConfirmBooking />} />
                 <Route path="/CancelBooking" element={<CancelBooking />} />
                   <Route path="/AddEventGAllery" element={<AddEventGAllery />} />
+                   <Route path="/ViewEventGallery" element={<ViewEventGallery />} />
+                     <Route path="/EditEventGallery/:id" element={<EditEventGallery />} />
+                   <Route path="/AddBanner" element={<AddBanner />} />
+                    <Route path="/ViewBanner" element={<ViewBanner />} />
               </Routes>
             </AdminLayout>
           }

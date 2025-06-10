@@ -1,0 +1,64 @@
+/* AddBanner.css */
+
+.add-banner-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffffff, #f0f4f8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.add-banner-container h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.add-banner-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-banner-form input[type="file"] {
+  padding: 10px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  transition: border 0.3s ease;
+}
+
+.add-banner-form input[type="file"]:hover {
+  border-color: #3498db;
+}
+
+.image-preview {
+  text-align: center;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 250px;
+  border-radius: 12px;
+  border: 2px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-banner-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-banner-form button:hover {
+  background-color: #2980b9;
+}

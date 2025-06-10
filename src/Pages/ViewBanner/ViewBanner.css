@@ -1,0 +1,52 @@
+.view-banner-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.view-banner-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.banner-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.banner-table th,
+.banner-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.banner-img {
+  width: 100px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 8px 12px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #3498db;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+}

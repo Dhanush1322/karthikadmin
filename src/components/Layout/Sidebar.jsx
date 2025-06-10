@@ -41,9 +41,28 @@ const handleLogout = () => {
           <p className="menu-title">SERVICES</p>
           <ul className="services-list">
              <li>
+              <NavLink to="/AddBanner" className={({ isActive }) => `service-item ${isActive ? 'active' : ''}`}>
+                <Shield className="menu-icon" />
+                Add Banner
+              </NavLink>
+            </li>
+             <li>
+              <NavLink to="/ViewBanner" className={({ isActive }) => `service-item ${isActive ? 'active' : ''}`}>
+                <Shield className="menu-icon" />
+              View Banner
+              </NavLink>
+            </li>
+             
+             <li>
               <NavLink to="/AddEventGAllery" className={({ isActive }) => `service-item ${isActive ? 'active' : ''}`}>
                 <Shield className="menu-icon" />
                 Add Event Gallary
+              </NavLink>
+            </li>
+             <li>
+              <NavLink to="/ViewEventGallery" className={({ isActive }) => `service-item ${isActive ? 'active' : ''}`}>
+                <Shield className="menu-icon" />
+                View Event Gallary
               </NavLink>
             </li>
             <li>
