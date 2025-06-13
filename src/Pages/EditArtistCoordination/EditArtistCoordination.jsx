@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 
 function EditArtistCoordination() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [image, setImage] = useState(null);
   const [events, setEvents] = useState('');
@@ -12,36 +13,31 @@ function EditArtistCoordination() {
   const [ratings, setRatings] = useState('');
   const [isBookable, setIsBookable] = useState(false);
   const [loading, setLoading] = useState(false);
-const navigate = useNavigate();
+
   useEffect(() => {
     const fetchArtistFromAll = async () => {
       try {
         const token = localStorage.getItem('adminToken');
 
-        // Fetch all artists
         const response = await axios.get(
           'https://karthikcreation.ap-1.evennode.com/api/admin/getAllArtist',
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 
         if (response.data.Status && Array.isArray(response.data.data)) {
-          // Find artist by id
           const artist = response.data.data.find((a) => a._id === id);
-
           if (artist) {
             setEvents(artist.number_of_events || '');
-setName(artist.heading || '');
+            setName(artist.heading || '');
             setRatings(artist.rating || '');
             setIsBookable(artist.availability_status === 1);
           } else {
             Swal.fire({
               icon: 'error',
               title: 'Not Found',
-              text: 'Artist with given ID not found in all artists.',
+              text: 'Artist with the given ID not found.',
               confirmButtonColor: '#d33',
             });
           }
@@ -49,16 +45,16 @@ setName(artist.heading || '');
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Failed to fetch artists list.',
+            text: 'Failed to fetch artist list.',
             confirmButtonColor: '#d33',
           });
         }
       } catch (error) {
-        console.error('Failed to fetch artists:', error);
+        console.error('Error fetching artist:', error);
         Swal.fire({
           icon: 'error',
           title: 'Error!',
-          text: 'Could not fetch artists data.',
+          text: 'Could not fetch artist data.',
           confirmButtonColor: '#d33',
         });
       }
@@ -69,7 +65,6 @@ setName(artist.heading || '');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
 
     try {
@@ -81,45 +76,50 @@ setName(artist.heading || '');
       }
 
       formData.append('number_of_events', events);
-        formData.append('heading', heading);
+      formData.append('heading', name);
       formData.append('rating', ratings);
       formData.append('availability_status', isBookable ? 1 : 0);
 
-      const response = await fetch(
+      // Debug logs
+      console.log('Submitting update for ID:', id);
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+
+      // Use axios instead of fetch for better FormData handling
+      const response = await axios.put(
         `https://karthikcreation.ap-1.evennode.com/api/admin/updateArtistCoordinationData/${id}`,
+        formData,
         {
-          method: 'PUT',
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          body: formData,
         }
       );
 
-      const data = await response.json();
-
-       if (response.ok) {
+      if (response.data.Status || response.status === 200) {
         Swal.fire({
           icon: 'success',
-          title: 'Success',
+          title: 'Updated!',
           text: 'Artist updated successfully!',
           confirmButtonColor: '#3085d6',
         }).then(() => {
-          navigate('/ArtistsCoordinationTable');  // <-- redirect after success alert
+          navigate('/ArtistsCoordinationTable');
         });
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Failed',
-          text: data.message || 'Unknown error occurred.',
+          text: response.data.message || 'Unknown error occurred.',
           confirmButtonColor: '#d33',
         });
       }
     } catch (error) {
+      console.error('Update error:', error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: error.message || 'Something went wrong!',
+        text: error?.response?.data?.message || error.message || 'Something went wrong!',
         confirmButtonColor: '#d33',
       });
     } finally {
@@ -155,18 +155,18 @@ setName(artist.heading || '');
               min={0}
             />
           </div>
-           <div className="form-group">
-            <label>Events name</label>
-           <input
-  type="text"
-  name="name"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-  placeholder="Events Name"
-  className="form-control"
-  required
-/>
 
+          <div className="form-group">
+            <label>Events Name</label>
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Events Name"
+              className="form-control"
+              required
+            />
           </div>
 
           <div className="form-group">

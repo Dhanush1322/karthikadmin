@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // at the top
+import axios from 'axios'; // ✅ Add this
 function ViewEventGallery() {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -68,37 +69,43 @@ function ViewEventGallery() {
 const handleDelete = async (itemId, itemType) => {
   if (!window.confirm('Are you sure you want to delete this item?')) return;
 
+  const token = localStorage.getItem('adminToken');
+
+  console.log('Deleting ID:', itemId, 'Category:', itemType);
+
   try {
-    const response = await axios.delete(
-      'https://karthikcreation.ap-1.evennode.com/api/admin/deleteEventGallery',
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: {
-          id: itemId,
-          type: itemType,
-        },
-      }
-    );
+    const response = await axios.request({
+      method: 'DELETE',
+      url: 'https://karthikcreation.ap-1.evennode.com/api/admin/deleteEventGallery',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        type: itemType,
+        id: itemId,
+      
+      },
+    });
+
+    console.log('Delete response:', response.data);
 
     if (response.data.status) {
       alert('Deleted successfully');
 
-      // Remove the deleted item from local state
-      setData((prevData) =>
-        prevData.filter(
-          (item) => !(item._id === itemId && item.category === itemType)
-        )
-      );
+      // TEMP: force reload to confirm
+      window.location.reload();
+
+      // Your correct local update (can use after testing reload)
+      // setData(prevData => prevData.filter(item => item._id !== itemId));
     } else {
-      alert('Failed to delete');
+      alert('Failed to delete: ' + (response.data.message || 'Unknown error'));
     }
   } catch (error) {
-    console.error('Delete failed:', error);
+    console.error('Delete failed:', error.response || error.message);
     alert('Error deleting item');
   }
 };
+
 const indexOfLast = currentPage * rowsPerPage;
     const indexOfFirst = indexOfLast - rowsPerPage;
     const currentRows = data.slice(indexOfFirst, indexOfLast);
@@ -119,6 +126,7 @@ const indexOfLast = currentPage * rowsPerPage;
                     <thead>
                         <tr>
                             <th>SL</th>
+                             <th>id</th>
                             <th>Category</th>
                             <th>Image/Video</th>
                             <th>Heading</th>
@@ -130,6 +138,7 @@ const indexOfLast = currentPage * rowsPerPage;
                         {currentRows.map((item, index) => (
                             <tr key={item._id}>
                                 <td>{indexOfFirst + index + 1}</td>
+                                 <td>{item._id}</td>
                                 <td>{item.category}</td>
                                 <td>
                                     {item.imageUrl ? (

@@ -50,11 +50,11 @@ const AppRoutes = () => {
                 <Route path="/Contact" element={<Contact />} />
                 <Route path="/ConfirmBooking" element={<ConfirmBooking />} />
                 <Route path="/CancelBooking" element={<CancelBooking />} />
-                  <Route path="/AddEventGAllery" element={<AddEventGAllery />} />
-                   <Route path="/ViewEventGallery" element={<ViewEventGallery />} />
-                     <Route path="/EditEventGallery/:id" element={<EditEventGallery />} />
-                   <Route path="/AddBanner" element={<AddBanner />} />
-                    <Route path="/ViewBanner" element={<ViewBanner />} />
+                <Route path="/AddEventGAllery" element={<AddEventGAllery />} />
+                <Route path="/ViewEventGallery" element={<ViewEventGallery />} />
+                <Route path="/EditEventGallery/:id" element={<EditEventGallery />} />
+                <Route path="/AddBanner" element={<AddBanner />} />
+                <Route path="/ViewBanner" element={<ViewBanner />} />
               </Routes>
             </AdminLayout>
           }

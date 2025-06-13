@@ -35,67 +35,67 @@ function ViewEnquiey() {
       .finally(() => setLoading(false));
   };
 
-const updateStatus = (id, status) => {
-  const token = localStorage.getItem('adminToken');
-  setUpdatingId(id);
+  const updateStatus = (id, status) => {
+    const token = localStorage.getItem('adminToken');
+    setUpdatingId(id);
 
-  fetch(`${UPDATE_STATUS_URL}/${id}`, {
-    method: 'PATCH',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ action: status }),
-  })
-    .then(res => res.json())
-    .then(result => {
-      console.log('Update result:', result); // Debug API response
+    fetch(`${UPDATE_STATUS_URL}/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ action: status }),
+    })
+      .then(res => res.json())
+      .then(result => {
+        console.log('Update result:', result); // Debug API response
 
-      if (result.message && result.data) {
-        const updatedItem = result.data;
+        if (result.message && result.data) {
+          const updatedItem = result.data;
 
-        setData(prevData => {
-          // Replace the item with the updated one
-          const newData = prevData.map(item =>
-            item._id === id ? updatedItem : item
-          );
+          setData(prevData => {
+            // Replace the item with the updated one
+            const newData = prevData.map(item =>
+              item._id === id ? updatedItem : item
+            );
 
-          // Filter out if updated item's action is not 'pending'
-          return newData.filter(item => item.action === 'pending');
-        });
+            // Filter out if updated item's action is not 'pending'
+            return newData.filter(item => item.action === 'pending');
+          });
 
-        // Adjust current page if needed
-        setCurrentPage(prevPage => {
-          const filteredLength = data.filter(item => item.action === 'pending').length - 1;
-          const maxPages = Math.ceil(filteredLength / rowsPerPage);
-          return prevPage > maxPages ? maxPages : prevPage;
-        });
+          // Adjust current page if needed
+          setCurrentPage(prevPage => {
+            const filteredLength = data.filter(item => item.action === 'pending').length - 1;
+            const maxPages = Math.ceil(filteredLength / rowsPerPage);
+            return prevPage > maxPages ? maxPages : prevPage;
+          });
 
-        Swal.fire({
-          icon: 'success',
-          title: 'Status Updated',
-          text: `Enquiry has been ${status}`,
-          timer: 2000,
-          showConfirmButton: false,
-        });
-      } else {
+          Swal.fire({
+            icon: 'success',
+            title: 'Status Updated',
+            text: `Enquiry has been ${status}`,
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Update Failed',
+            text: 'Failed to update status',
+          });
+        }
+      })
+      .catch(err => {
+        console.error('Error updating status:', err);
         Swal.fire({
           icon: 'error',
-          title: 'Update Failed',
-          text: 'Failed to update status',
+          title: 'Error',
+          text: 'Error updating status',
         });
-      }
-    })
-    .catch(err => {
-      console.error('Error updating status:', err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Error updating status',
-      });
-    })
-    .finally(() => setUpdatingId(null));
-};
+      })
+      .finally(() => setUpdatingId(null));
+  };
 
   // Filter only pending enquiries before pagination
   const pendingData = data.filter(item => item.action === 'pending');
@@ -131,6 +131,7 @@ const updateStatus = (id, status) => {
               <th>Schedule Date</th>
               <th>Booking Days</th>
               <th>Reference Module</th>
+              <th>Service</th>
               <th>Created At</th>
               <th>Updated At</th>
               <th>Status</th>
@@ -160,6 +161,8 @@ const updateStatus = (id, status) => {
                   <td>{new Date(item.schedule_date).toLocaleDateString()}</td>
                   <td>{item.booking_days}</td>
                   <td>{item.reference_model || '-'}</td>
+                  
+                   <td>{item.reference_id && item.reference_id.heading}</td>
                   <td>{new Date(item.createdAt).toLocaleString()}</td>
                   <td>{new Date(item.updatedAt).toLocaleString()}</td>
                   <td>{item.action}</td>

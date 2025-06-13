@@ -40,7 +40,7 @@ const handleLogout = () => {
         <div className="services-section">
           <p className="menu-title">SERVICES</p>
           <ul className="services-list">
-             <li>
+             {/* <li>
               <NavLink to="/AddBanner" className={({ isActive }) => `service-item ${isActive ? 'active' : ''}`}>
                 <Shield className="menu-icon" />
                 Add Banner
@@ -51,7 +51,7 @@ const handleLogout = () => {
                 <Shield className="menu-icon" />
               View Banner
               </NavLink>
-            </li>
+            </li> */}
              
              <li>
               <NavLink to="/AddEventGAllery" className={({ isActive }) => `service-item ${isActive ? 'active' : ''}`}>

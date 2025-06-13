@@ -31,7 +31,7 @@ function AddBanner() {
     }
 
     const formData = new FormData();
-    formData.append('file', selectedImage); // ← should be 'img', not 'file'
+    formData.append('files', selectedImage); // ← should be 'img', not 'file'
 
     try {
       setLoading(true);
