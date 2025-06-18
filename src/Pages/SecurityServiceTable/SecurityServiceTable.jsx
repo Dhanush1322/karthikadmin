@@ -28,7 +28,7 @@ function SecurityServiceTable() {
           for (const item of result.data) {
             if (item.img) {
               const response = await fetch(
-                `https://karthikcreation.ap-1.evennode.com/api/admin/viewServiceFile/${item.img}`,
+                `https://karthikcreation.ap-1.evennode.com/api/admin/viewServiceFile?fileUrl=${item.img}`,
                 {
                   headers: {
                     Authorization: `Bearer ${AUTH_TOKEN}`,

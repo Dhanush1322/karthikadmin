@@ -33,7 +33,7 @@ function ArtistsCoordinationTable() {
       const newImageUrls = {};
       for (const artist of artists) {
         try {
-          const response = await fetch(`https://karthikcreation.ap-1.evennode.com/api/admin/viewArtistFile/${artist.img}`, {
+          const response = await fetch(`https://karthikcreation.ap-1.evennode.com/api/admin/viewArtistFile?fileUrl=${artist.img}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
