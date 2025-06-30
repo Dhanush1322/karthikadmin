@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './RecentBooking.css';
 
-const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
+const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiryNew';
 
 function RecentBooking() {
   const [bookings, setBookings] = useState([]);
@@ -70,7 +70,7 @@ function RecentBooking() {
                 <tr key={index}>
                   <td>{booking.full_name || 'N/A'}</td>
                   <td>{booking.reference_model || 'N/A'}</td>
-                  <td>{new Date(booking.schedule_date).toLocaleDateString()}</td>
+                  <td>{new Date(booking.event_date).toLocaleDateString()}</td>
                   <td>
                     <span className={getStatusBadgeClass(booking.action)}>
                       {booking.action}

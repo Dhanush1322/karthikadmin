@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './PendingBooking.css';
 import Swal from 'sweetalert2';
 
-const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
-const UPDATE_STATUS_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/approveRejectEnquiry';
+const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiryNew';
+const UPDATE_STATUS_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/approveRejectEnquiryNew';
 
 function PendingBooking() {
   const [pendingList, setPendingList] = useState([]);

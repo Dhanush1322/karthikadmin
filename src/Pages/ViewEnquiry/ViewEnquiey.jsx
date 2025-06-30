@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './ViewEnquiey.css';
 import Swal from 'sweetalert2';
-const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry';
-const UPDATE_STATUS_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/approveRejectEnquiry';
+const API_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiryNew';
+const UPDATE_STATUS_URL = 'https://karthikcreation.ap-1.evennode.com/api/user/approveRejectEnquiryNew';
 
 function ViewEnquiey() {
   const [data, setData] = useState([]);
@@ -117,77 +117,72 @@ function ViewEnquiey() {
     <div className="ve-table-container">
       <h2 className="ve-table-title">Bookings (Pending only)</h2>
       <div className="ve-table-scroll">
-        <table className="ve-equipment-table">
-          <thead>
-            <tr>
-              <th>S.NO</th>
-              <th>Name</th>
-              <th>Optional Name</th>
-              <th>Company Name</th>
-              <th>Phone Number</th>
-              <th>Alternate Number</th>
-              <th>Email</th>
-              <th>Optional Email</th>
-              <th>Schedule Date</th>
-              <th>Booking Days</th>
-              <th>Reference Module</th>
-              <th>Service</th>
-              <th>Created At</th>
-              <th>Updated At</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan="15" style={{ textAlign: 'center' }}>Loading...</td>
-              </tr>
-            ) : currentRows.length === 0 ? (
-              <tr>
-                <td colSpan="15" style={{ textAlign: 'center' }}>No pending enquiries found.</td>
-              </tr>
-            ) : (
-              currentRows.map((item, index) => (
-                <tr key={item._id}>
-                  <td>{indexOfFirst + index + 1}</td>
-                  <td>{item.full_name}</td>
-                  <td>{item.optional_name || '-'}</td>
-                  <td>{item.company_name || '-'}</td>
-                  <td>{item.phone_no}</td>
-                  <td>{item.optional_phone_no || '-'}</td>
-                  <td>{item.email}</td>
-                  <td>{item.optional_email || '-'}</td>
-                  <td>{new Date(item.schedule_date).toLocaleDateString()}</td>
-                  <td>{item.booking_days}</td>
-                  <td>{item.reference_model || '-'}</td>
-                  
-                   <td>{item.reference_id && item.reference_id.heading}</td>
-                  <td>{new Date(item.createdAt).toLocaleString()}</td>
-                  <td>{new Date(item.updatedAt).toLocaleString()}</td>
-                  <td>{item.action}</td>
-                  <td>
-                    <button
-                      disabled={updatingId === item._id}
-                      onClick={() => updateStatus(item._id, 'approved')}
-                      style={{ marginRight: 8, backgroundColor: '#4CAF50', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }}
-                    >
-                      Approve
-                    </button>
-                    <button
-                      disabled={updatingId === item._id}
-                      onClick={() => updateStatus(item._id, 'rejected')}
-                      style={{ backgroundColor: '#f44336', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }}
-                    >
-                      Reject
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      <table className="ve-equipment-table">
+  <thead>
+    <tr>
+      <th>S.NO</th>
+      <th>Full Name</th>
+      <th>Company Name</th>
+      <th>Phone Number</th>
+      <th>Email</th>
+      <th>Event Date</th>
+      <th>Event Days</th>
+      <th>Reference Model</th>
+      <th>Service</th>
+      <th>Created At</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {loading ? (
+      <tr>
+        <td colSpan="12" style={{ textAlign: 'center' }}>Loading...</td>
+      </tr>
+    ) : currentRows.length === 0 ? (
+      <tr>
+        <td colSpan="12" style={{ textAlign: 'center' }}>No pending enquiries found.</td>
+      </tr>
+    ) : (
+      currentRows.map((item, index) => (
+        <tr key={item._id}>
+          <td>{indexOfFirst + index + 1}</td>
+          <td>{item.full_name}</td>
+          <td>{item.company_name}</td>
+          <td>{item.phone_no}</td>
+          <td>{item.email}</td>
+          <td>{new Date(item.event_date).toLocaleDateString()}</td>
+          <td>{item.event_days}</td>
+          <td>{item.reference_model}</td>
+          <td>
+            {item.karthik_creation_products || 
+             item.karthik_creation_service || 
+             item.top_speed_security_service || '-'}
+          </td>
+          <td>{new Date(item.createdAt).toLocaleString()}</td>
+          <td>{item.action}</td>
+          <td>
+            <button
+              disabled={updatingId === item._id}
+              onClick={() => updateStatus(item._id, 'approved')}
+              style={{ marginRight: 8, backgroundColor: '#4CAF50', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }}
+            >
+              Approve
+            </button>
+            <button
+              disabled={updatingId === item._id}
+              onClick={() => updateStatus(item._id, 'rejected')}
+              style={{ backgroundColor: '#f44336', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }}
+            >
+              Reject
+            </button>
+          </td>
+        </tr>
+      ))
+    )}
+  </tbody>
+</table>
+</div>
 
       <div className="ve-pagination-section">
         <div>

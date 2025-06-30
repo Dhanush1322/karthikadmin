@@ -14,7 +14,7 @@ function Cards() {
     const token = localStorage.getItem('adminToken');
 
     // Fetch booking data
-    fetch('https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiry', {
+    fetch('https://karthikcreation.ap-1.evennode.com/api/user/getAllEnquiryNew', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
